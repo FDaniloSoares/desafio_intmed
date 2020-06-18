@@ -1,0 +1,7 @@
+# dev-requirements.in
+-c requirements.txt
+
+django-debug-toolbar
+django-extensions
+black
+flake8

@@ -1,0 +1,74 @@
+<div id="parent">
+  <div id="child">
+  
+    <div class="container"> 
+        
+      <div class="container">
+        <div class="row" >
+          <div class="col-md-6 offset-md-3" >
+            <img src="../../../../../assets/img/logo-medicar.png" alt="logo" width=271 height=75 ><br><br>
+          </div><br>
+          <div class="col-md-6 offset-md-3">
+            <p><b>Nova Consulta</b></p>
+          </div><br>
+        </div>  
+      </div>
+      <form [formGroup]="form">
+          <div class="form-group row centered">
+            <div class="col-xs-12  col-md-6">
+              <select class="custom-select" id="primeiro" onchange="selecter()">
+                <option selected disabled>Especialidade</option>
+                <option *ngFor="let agenda of agendas" value="{{ agenda.medico.especialidade.nome }}">{{ agenda.medico.especialidade.nome }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row centered">
+            <div class="col-xs-12  col-md-6">
+              <select class="custom-select" >
+                <option selected disabled >Medico</option>
+                <ng-container *ngFor="let agenda of agendas">
+                  <option>
+                      {{ agenda.medico.nome }}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </div>  
+    
+          <div class="form-group row centered">
+            <div class="col-xs-12  col-md-6">
+              <select class="custom-select">
+                <option selected disabled>Data</option>
+                <option *ngFor="let agenda of agendas">{{ agenda.dia }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row centered">
+            <div class="col-xs-12  col-md-6">
+              <select class="custom-select">
+                <option selected disabled>Hora</option>
+                <option *ngFor="let agenda of agendas">{{ agenda.horarios }}</option>
+              </select>
+            </div>
+          </div> 
+            
+          <div class="row ">
+              <div class="col col-md-6 col-xs-12">
+                <button type="button" class="btn btn-inativo col-md-5 offset-md-6 "  
+                  routerLink="/consultas"
+                  aria-pressed="false">Cancelar
+                </button>              
+              </div>
+              <div class="col col-md-6 col-xs-12">
+                <button type="submit" class="btn btn-ativo col-md-5 offset-md-1 " 
+                  [disabled]="form.invalid" (click)="agendar()"
+                  aria-pressed="false">Agendar
+                </button>
+              </div>       
+          </div>
+      </form>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,58 @@
+<div id="parent">
+    <div id="child">
+      
+        <div class="container">
+          <div class="row" >
+            <div class="col-md-6 offset-md-3" >
+              <img src="../../../../../assets/img/logo-medicar.png" alt="logo" width=271 height=75 ><br><br>
+            </div><br>
+          </div>
+        </div>
+
+        <form [formGroup]="form">
+        
+          <div class="container"> 
+            
+            <div class="form-group row centered">
+              <div class="col-xs-12  col-md-6">
+                <input type="text" class="form-control" formControlName="username" id="exampleFormControlInput1" placeholder="Login" required=True>  
+              </div>
+            </div>
+    
+            <div class="form-group row centered">
+              <div class="col-xs-12 col-md-6">
+                <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1" placeholder="Senha" required=True>
+              </div>  
+            </div>
+    
+            <div class="form-group form-check row" >
+              <div class="col-md-6 offset-md-3">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="Check1">
+                  <label class="custom-control-label" for="Check1">Lembrar Senha</label>   
+                </div>
+              </div>          
+            </div>  
+          </div>
+          
+          <div class="container">   
+            <div class="row ">
+              <div class="col col-md-6 col-xs-12">
+                <button type="button" class="btn btn-inativo col-md-5 offset-md-6 "  
+                  routerLink="/cadastro"
+                  aria-pressed="false">Criar Conta
+                </button>              
+              </div>
+              <div class="col col-md-6 col-xs-12">
+                <button type="submit" class="btn btn-ativo col-md-5 offset-md-1 "
+                  (click)="logar()"
+                  aria-pressed="false">Acessar
+                </button>
+              </div>  
+            </div>      
+          </div>  
+      
+        </form>
+    
+    </div>
+  </div>
