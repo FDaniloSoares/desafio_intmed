@@ -29,13 +29,15 @@ export class CadastrarComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3)]],
       username:  ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(3)]],
-      password2: ['', [Validators.required, Validators.minLength(3)]],
-    });
+      password2: ['', [Validators.required, Validators.minLength(3), ]],
+    }, {validator: this.validarSenha })
   }
   
   cadastrar() {
     if (this.form.invalid){
-      return;
+      if (this.form.value.password != this.form.value.password2 ) {
+        return alert(JSON.stringify('Senha e Confirmação diferentes'));
+      }
     }
     const cadastro: Cadastro = this.form.value
     //alert(JSON.stringify(cadastro));
@@ -49,14 +51,21 @@ export class CadastrarComponent implements OnInit {
           this.router.navigate(['/login']);
         },
         err => {
-          console.log(JSON.stringify(err));
-          let msg: string = "Tente novamente em Instantes";
           if (err.status == 400){
-            msg = err.error.errors.join(' ');  
+            alert(JSON.stringify('Verifique se todos os campos estão preenchidos ou Troque o Login'));  
+          } else {
+            alert(JSON.stringify("Tente novamente em Instantes"));
           }
-          alert(JSON.stringify(msg));
         }
       );
     return false;
   }
+
+  validarSenha(group: FormGroup) { 
+  let pass = group.get('password').value;
+  let confirmPass = group.get('password2').value;
+
+  return pass === confirmPass ? null : { notSame: true }     
+  }
+
 }

@@ -7,11 +7,13 @@ import {
     ListagemComponent,
 
 } from './components';
+import { Guard } from '../shared';
 
 export const ConsultasRoutes: Routes = [
     {
         path: 'consultas',
         component: ConsultasComponent,
+        canActivate: [ Guard ],
         children: [
             {
                 path: '',

@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Agendamento } from '../../models';
 import { AgendamentoService } from '../../services';
-import { HttpUtilService } from '../../../shared';
 
 
 @Component({
@@ -13,26 +12,39 @@ import { HttpUtilService } from '../../../shared';
 })
 export class AgendamentoComponent implements OnInit {
 
-  especialidade: string
+  aux=[];
   agendas=[];
+  especialidades=[];
+  escolha_especialidade: string;
+  medicos=[];
+  escolha_medico: string
+  dias=[];
+  escolha_dia:string;
+  horas=[];
+  agenda_id: number;
+  horario: string;
+
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private router:Router,
-    private httpUtil: HttpUtilService,
     private agendamentoService: AgendamentoService,
   ) { }
 
   ngOnInit(): void {
  
-    this.especialidade = sessionStorage.getItem("especialidade");
     this.gerarForm();
     this.agendamentoService.listarAgendas()
       .subscribe(
         data => {
           this.agendas = (data["results"]);
-          //console.log((this.agendas));
+          for (var i = 0; i < this.agendas.length; i++) {
+            this.aux.push(this.agendas[i].medico.especialidade.nome);  
+          }
+      
+          this.especialidades = this.uniq(this.aux);
+          this.aux = [];
         },
         err => {
           if (err['status']==403) {
@@ -53,7 +65,7 @@ export class AgendamentoComponent implements OnInit {
       especialidade: ['', [Validators.required]],
       medico:  ['', [Validators.required ]],
       data: ['', [Validators.required ]],
-      hora: ['', [Validators.required ]],
+      horario: ['', [Validators.required ]],
     });
   }; 
   
@@ -61,9 +73,11 @@ export class AgendamentoComponent implements OnInit {
     if (this.form.invalid){
       return;
     }
-    const agendamento: Agendamento = this.form.value;
-    //alert(JSON.stringify(agendamento));
-  
+    
+    const agendamento: Agendamento = {
+        agenda_id: this.agenda_id, 
+        horario: this.form.value.horario 
+    };
     this.agendamentoService.agendar(agendamento)
     .subscribe(
       data => {
@@ -74,12 +88,71 @@ export class AgendamentoComponent implements OnInit {
       err => {
         let msg: string = "Tente novamente em Instantes"
         if (err.status == 400){
-          msg = err.error.errors.join(' ');
+          alert(JSON.stringify('Horario não disponivel'));
         }
-        alert(JSON.stringify(msg));
+        alert(JSON.stringify('Tente Mais Tarde em Instantes'));
       } 
     )
   
   };
+  uniq(a) {
+    var seen = {};
+    return a.sort().filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
+  }
+  selec1(){ 
+    this.escolha_especialidade = (<HTMLInputElement>document.getElementById('primeiro')).value;
+    
+    for (var i = 0; i < this.agendas.length; i++) {
+        if (
+          this.agendas[i].medico.especialidade.nome == this.escolha_especialidade
+          ){
+          this.aux.push(this.agendas[i].medico.nome);    
+        }  
+    }
+    this.medicos = this.uniq(this.aux);
+    this.aux = [];
+  }
+
+  selec2(){ 
+    this.escolha_medico = (<HTMLInputElement>document.getElementById('segundo')).value;
+    
+    for (var i = 0; i < this.agendas.length; i++) {
+        if (
+          this.agendas[i].medico.nome == this.escolha_medico &&
+          this.agendas[i].medico.especialidade.nome == this.escolha_especialidade
+          ){
+          this.aux.push(this.agendas[i].dia);    
+        }  
+    }
+    this.dias = this.uniq(this.aux);
+    this.aux = [];
+  }
+
+  selec3(){ 
+    this.escolha_dia = (<HTMLInputElement>document.getElementById('terceiro')).value;
+    
+    for (var i = 0; i < this.agendas.length; i++) {
+        if (
+          this.agendas[i].medico.nome == this.escolha_medico &&
+          this.agendas[i].medico.especialidade.nome == this.escolha_especialidade &&
+          this.agendas[i].dia == this.escolha_dia
+          ){
+          this.aux.push(this.agendas[i].horarios);    
+          this.agenda_id = this.agendas[i].id  
+        }  
+    }
+    this.horas = this.uniq(this.aux);    
+    this.aux = [];
+    this.aux = this.horas[0].split(', ');
+    this.horas = this.aux
+    this.aux = [];
+  }
+  selec4(){ 
+    this.horario = (<HTMLInputElement>document.getElementById('quarto')).value;
+  }  
+
 }
+
 

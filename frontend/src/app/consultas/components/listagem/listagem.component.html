@@ -35,48 +35,38 @@
         </div>
     </div><br>
             
-    <table class="table table-striped container">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">Especialidade</th>
-                <th scope="col">Profissional</th>
-                <th scope="col">Data</th>
-                <th scope="col">Hora</th>
-                <th scope="col"></th>
+                <th scope="col" >Profissional</th>
+                <th scope="col" >Data</th>
+                <th scope="col" >Hora</th>
+                <th scope="col" ></th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <div *ngFor="let agenda of agendas">
-                        {{ agenda.medico.especialidade.nome }}
-                    </div>
+            <tr *ngFor="let consulta of consultas">
+                <td >
+                    {{ consulta.medico.especialidade.nome }}
                 </td>
                 <td>
-                    <div *ngFor="let agenda of agendas">
-                        {{ agenda.medico.nome }}
-                    </div>
+                    {{ consulta.medico.nome }}
                 </td>
                 <td>
-                    <div *ngFor="let agenda of agendas">
-                        {{ agenda.dia }}
-                    </div>
+                    {{ consulta.dia }} 
                 </td>
                 <td>
-                    <div *ngFor="let agenda of agendas">
-                        {{ agenda.horarios }}
-                    </div>
+                    {{ consulta.horario }}
                 </td>
                 <td>
-                    <div *ngFor="let agenda of agendas">
-                        <button type="submit" class="btn-inativo" >
-                            X Desmarcar
-                        </button>
-                    </div>
+                    <button type="submit" (click)="deleteConsulta(this.consulta.id)" 
+                        class="btn btn-inativo" >
+                        X Desmarcar
+                    </button>
                 </td>    
             </tr>
         </tbody>
     </table>
 
 </div>
-

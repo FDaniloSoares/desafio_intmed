@@ -12,8 +12,9 @@ import { HttpUtilService } from '../../../shared';
 })
 export class ListagemComponent implements OnInit {
   
-  agendas=[];
   usuario : string;
+  consultas=[];
+  consulta_id: string;
 
   constructor(
     private agendamentoService: AgendamentoService ,
@@ -24,19 +25,19 @@ export class ListagemComponent implements OnInit {
   
 
   ngOnInit(): void {
+    
     this.usuario = this.httpUtil.obterNomeUsuario()
-    this.agendamentoService.listarAgendas()
+    this.agendamentoService.listarConsultas()
       .subscribe(
         data => {
-          this.agendas = (data["results"]);
-          //console.log((this.agendas));
+          this.consultas = data
         },
         err => {
           if (err['status']==403) {
             const msg: string = "Não Autorizado";
             alert(msg);
           } else {
-            const msg: string = "Erro obtendo Agendas";
+            const msg: string = "Erro obtendo Consultas";
             alert(msg);
           }
         }
@@ -47,4 +48,11 @@ export class ListagemComponent implements OnInit {
     this.logoutService.logout();
     this.router.navigate(['/login']);
     }
+
+  deleteConsulta(consulta_id: number){
+    this.consulta_id = consulta_id.toString();
+    this.agendamentoService.deletarConsultas(this.consulta_id).subscribe();
+    history.go(0);
+  }
+
 }

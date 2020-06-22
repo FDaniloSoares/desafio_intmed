@@ -6,6 +6,5 @@ urlpatterns = [
     path("", include(("apps.scheduling.urls", "scheduling"), namespace="scheduling")),
     path("account/", include(("apps.account.urls", "account"), namespace="account")),
     path("admin/", admin.site.urls),
-    path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    
+    path('auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  
 ] 

@@ -9,8 +9,8 @@ import {
   AgendamentoComponent,
   ConsultasComponent, 
 } from './components';
-import { HttpUtilService } from '../shared';
-import { AgendamentoService } from './services';
+import { HttpUtilService, Guard } from '../shared';
+import { AgendamentoService} from './services';
 
 
 @NgModule({
@@ -30,7 +30,8 @@ import { AgendamentoService } from './services';
   ],
   providers: [
     HttpUtilService,
-    AgendamentoService
+    AgendamentoService,
+    Guard
   ]
 })
 export class ConsultasModule { }

@@ -2,36 +2,35 @@ Sistema para uma clínica chamada Medicar com marcação de consultas e gerencia
 
 Para executar o projeto basta usar o comando abaixo:
 
-Usado windows 10 para criar a apliacação com o python 3.8.2 e nodejs 14.4.0
+Apliacação feita usando python 3.8.2 e nodejs 14.4.0
  
-Os comandos a seguir são executados usando o powershell na versão 5.1
 
-backend
+
 
 Instalando dependências
-```powershell
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-pip install -r .\backend\requirements.txt
-```
 
-Para executar a api
-```powershell
-python .\backend\manage.py runserver
-```
+BACKEND
+    
+    pip install -r requirements.txt (dentro da pasta backend)
 
-frontend
-```powershell
-cd frontend
-npm install
-```
+    Apos instalação de dependências é necessario ir onde o arquivo de "djangorestframework-simplejwt" foram instalados e em "rest_framework_simplejwt.tokens" modificar os parâmetros iniciais da classe Token :
+
+
+        token_type = 'access'
+        lifetime = timedelta(days=1) # Tempo arbitrario, pode ser colocado qualquer valor
+
+
+
+FRONTEND
+
+    npm install (dentro da pasta frontend)
 
 
 Rodando aplicação
-back
+BACKEND
     python manage.py runserver
 
-front
+FRONTEND
     ng serve
 
 a API funciona em http://localhos:8000 e o front em http://localhos:4200
